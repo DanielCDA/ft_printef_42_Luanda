@@ -5,20 +5,20 @@ void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
 
-int indentificador(const char format, va_list args)
+int indentificador(const char format, va_list *args)
 {
     int num;
     char *str;
 
     if (format == 'd')
     {
-        num = va_arg(args, int);
+        num = va_arg(*args, int);
         ft_putnbr_fd(num, 1);
         return 1;
     }
     else if (format == 's')
     {
-        str = va_arg(args, char *);
+        str = va_arg(*args, char *);
         ft_putstr_fd(str, 1);
         return 1;
     }
@@ -35,7 +35,7 @@ int ft_printf(const char *format, ...)
         if (*format == '%')
         {
             format++;
-            count += indentificador(*format, args);
+            count += indentificador(*format, &args);
         }
         else
         {
@@ -50,6 +50,8 @@ int ft_printf(const char *format, ...)
 
 int main()
 {
-    ft_printf("Hello, %s! You have %dd new messages.\n", "Alice", -5);
+    char *name = "Alice";
+    int messages = 5;
+    ft_printf("Hello, %s! You have %d new messages.\n", name, messages);
     return 0;
 }
