@@ -7,21 +7,27 @@ void	ft_putchar_fd(char c, int fd);
 
 int indentificador(const char format, va_list *args)
 {
-    int num;
-    char *str;
-
     if (format == 'd')
     {
-        num = va_arg(*args, int);
-        ft_putnbr_fd(num, 1);
+        ft_putnbr_fd(va_arg(*args, int), 1);
         return 1;
     }
     else if (format == 's')
     {
-        str = va_arg(*args, char *);
-        ft_putstr_fd(str, 1);
+        ft_putstr_fd(va_arg(*args, char *), 1);
         return 1;
     }
+    else if (format == 'c')
+    {
+        ft_putchar_fd((char)va_arg(*args, int), 1);
+        return 1;
+    } 
+    else if (format == '%')
+    {
+        ft_putchar_fd('%', 1);
+        return 1;
+    } 
+
     return 0;
 }
 int ft_printf(const char *format, ...)
@@ -52,6 +58,6 @@ int main()
 {
     char *name = "Alice";
     int messages = 5;
-    ft_printf("Hello, %s! You have %d new messages.\n", name, messages);
+    ft_printf("Hello, %s! You have %d new messages. %% %c\n", name, messages, 'A');
     return 0;
 }
