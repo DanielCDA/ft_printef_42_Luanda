@@ -71,10 +71,10 @@ int main()
 {
     char *name = "Alice";
     int messages = 5;
-    ft_printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 25);
-    ft_printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 25);
+    ft_printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 16);
+    ft_printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 16);
     printf("\n+============================================================================+\n");
-    printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 25);
-    printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 25);
+    printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 16);
+    printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 16);
     return 0;
 }

@@ -17,7 +17,7 @@ int    ft_puthex_fd(unsigned int n, char c, int fd)
     int cont;
 
     cont = 0;
-    if (n > 16)
+    if (n > 15)
     {
         cont += ft_puthex_fd(n / 16, c, fd);
         cont += ft_puthex_fd(n % 16, c, fd);
