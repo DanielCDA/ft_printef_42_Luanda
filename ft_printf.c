@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int	ft_puthex_fd(unsigned int n, int fd);
+int	ft_puthex_fd(unsigned int n, char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -25,10 +25,14 @@ int indentificador(const char format, va_list *args)
         ft_putchar_fd((char)va_arg(*args, int), 1);
         return 1;
     } 
-    else if (format == 'x')
+    else if (format == 'x' || format == 'X')
     {
         int i;
-        i = ft_puthex_fd(va_arg(*args, int), 1);
+        if (format == 'x')
+            ft_putstr_fd("0x", 1);
+        else if (format == 'X')
+            ft_putstr_fd("0X", 1);
+        i = ft_puthex_fd(va_arg(*args, unsigned int), format, 1);
         return i;
     }
     else if (format == '%')
@@ -67,9 +71,10 @@ int main()
 {
     char *name = "Alice";
     int messages = 5;
-    ft_printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 255);
+    ft_printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 25);
+    ft_printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 25);
     printf("\n+============================================================================+\n");
-    printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 255);
-    printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 255);
+    printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 25);
+    printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 25);
     return 0;
 }

@@ -1,6 +1,17 @@
 # include "libft.h"
 
-int    ft_puthex_fd(unsigned int n, int fd)
+char    *ft_preenh_fd(char c)
+{
+    char    *hex;
+
+    if (c == 'X')
+        hex = "0123456789ABCDEF";
+    else if (c == 'x')
+        hex = "0123456789abcdef";
+    return (hex);
+}
+
+int    ft_puthex_fd(unsigned int n, char c, int fd)
 {
     char    *hex;
     int cont;
@@ -8,12 +19,12 @@ int    ft_puthex_fd(unsigned int n, int fd)
     cont = 0;
     if (n > 16)
     {
-        cont += ft_puthex_fd(n / 16, fd);
-        cont += ft_puthex_fd(n % 16, fd);
+        cont += ft_puthex_fd(n / 16, c, fd);
+        cont += ft_puthex_fd(n % 16, c, fd);
     }
     else
     {
-        hex = "0123456789abcdef";
+        hex = ft_preenh_fd(c);
         ft_putchar_fd(hex[n], fd);
         cont++;
     }
