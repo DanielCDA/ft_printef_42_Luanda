@@ -1,6 +1,9 @@
 #include <unistd.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+int	ft_puthex_fd(unsigned int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putchar_fd(char c, int fd);
@@ -22,6 +25,12 @@ int indentificador(const char format, va_list *args)
         ft_putchar_fd((char)va_arg(*args, int), 1);
         return 1;
     } 
+    else if (format == 'x')
+    {
+        int i;
+        i = ft_puthex_fd(va_arg(*args, int), 1);
+        return i;
+    }
     else if (format == '%')
     {
         ft_putchar_fd('%', 1);
@@ -58,6 +67,9 @@ int main()
 {
     char *name = "Alice";
     int messages = 5;
-    ft_printf("Hello, %s! You have %d new messages. %% %c\n", name, messages, 'A');
+    ft_printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 255);
+    printf("\n+============================================================================+\n");
+    printf("Hello, %s! You have %d new messages. %% %c %x\n", name, messages, 'A', 255);
+    printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 255);
     return 0;
 }
