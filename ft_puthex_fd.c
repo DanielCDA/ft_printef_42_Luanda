@@ -11,7 +11,7 @@ char    *ft_preenh_fd(char c)
     return (hex);
 }
 
-int    ft_puthex_fd(unsigned int n, char c, int fd)
+int    ft_puthex_fd(unsigned long n, char c, int fd)
 {
     char    *hex;
     int cont;
