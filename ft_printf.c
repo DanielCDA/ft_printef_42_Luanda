@@ -10,7 +10,7 @@ void	ft_putchar_fd(char c, int fd);
 
 int indentificador(const char format, va_list *args)
 {
-    if (format == 'd')
+    if (format == 'd' || format == 'i')
     {
         ft_putnbr_fd(va_arg(*args, int), 1);
         return 1;
@@ -74,6 +74,7 @@ int indentificador(const char format, va_list *args)
 
         return i;
     }
+    else
     else if (format == '%')
     {
         ft_putchar_fd('%', 1);
