@@ -50,6 +50,29 @@ int indentificador(const char format, va_list *args)
             return i + 2;
         }
     }
+    else if (format == 'u')
+    {
+        unsigned int num = va_arg(*args, unsigned int);
+        char buffer[20]; // Buffer to hold the string representation of the number
+        int i = 0;
+
+        if (num == 0)
+        {
+            ft_putchar_fd('0', 1);
+            return 1;
+        }
+
+        while (num > 0)
+        {
+            buffer[i++] = (num % 10) + '0';
+            num /= 10;
+        }
+
+        // Print the number in reverse order
+        
+
+        return i;
+    }
     else if (format == '%')
     {
         ft_putchar_fd('%', 1);
