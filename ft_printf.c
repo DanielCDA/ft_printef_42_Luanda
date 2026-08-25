@@ -69,7 +69,8 @@ int indentificador(const char format, va_list *args)
         }
 
         // Print the number in reverse order
-        
+        for (int j = i - 1; j >= 0; j--)
+            ft_putchar_fd(buffer[j], 1);
 
         return i;
     }
