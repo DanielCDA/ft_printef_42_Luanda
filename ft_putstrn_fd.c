@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_putstrn_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: danagost <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/07/31 15:17:21 by danagost          #+#    #+#             */
-/*   Updated: 2026/07/31 15:17:23 by danagost         ###   ########.fr       */
+/*   Created: 2026/08/24 15:15:08 by danagost          #+#    #+#             */
+/*   Updated: 2026/09/01 10:39:38 by danagost         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_putstrn_fd(char *s, int fd)
 {
-	if (!s || fd < 0)
-		return ;
-	while (*s)
+	int	i;
+
+	i = 0;
+	if (!s)
 	{
-		ft_putchar_fd (*s, fd);
-		s++;
+		write(fd, "(null)", 6);
+		return (6);
 	}
+	while (s[i])
+	{
+		ft_putchar_fd(s[i], fd);
+		i++;
+	}
+	return (i);
 }
