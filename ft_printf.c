@@ -1,121 +1,56 @@
-#include <unistd.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: danagost <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/08/20 17:35:01 by danagost          #+#    #+#             */
+/*   Updated: 2026/09/01 10:35:53 by danagost         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int	ft_puthex_fd(unsigned long n, char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-void	ft_putchar_fd(char c, int fd);
+#include "ft_printf.h"
 
-int indentificador(const char format, va_list *args)
+static int	ft_check_specifier(char spec, va_list *args)
 {
-    if (format == 'd' || format == 'i')
-    {
-        ft_putnbr_fd(va_arg(*args, int), 1);
-        return 1;
-    }
-    else if (format == 's')
-    {
-        ft_putstr_fd(va_arg(*args, char *), 1);
-        return 1;
-    }
-    else if (format == 'c')
-    {
-        ft_putchar_fd((char)va_arg(*args, int), 1);
-        return 1;
-    } 
-    else if (format == 'x' || format == 'X')
-    {
-        int i;
-        if (format == 'x')
-            ft_putstr_fd("0x", 1);
-        else if (format == 'X')
-            ft_putstr_fd("0X", 1);
-        i = ft_puthex_fd(va_arg(*args, unsigned int), format, 1);
-        return (i + 2);
-    }
-    else if (format == 'p')
-    {
-        void *ptr = va_arg(*args, void *);
-        if (ptr == NULL)
-        {
-            ft_putstr_fd("0x0", 1);
-            return 3;
-        }
-        else
-        {
-            ft_putstr_fd("0x", 1);
-            int i = ft_puthex_fd((unsigned long)ptr, 'x', 1);
-            return i + 2;
-        }
-    }
-    else if (format == 'u')
-    {
-        unsigned int num = va_arg(*args, unsigned int);
-        char buffer[20]; // Buffer to hold the string representation of the number
-        int i = 0;
-
-        if (num == 0)
-        {
-            ft_putchar_fd('0', 1);
-            return 1;
-        }
-
-        while (num > 0)
-        {
-            buffer[i++] = (num % 10) + '0';
-            num /= 10;
-        }
-
-        // Print the number in reverse order
-        for (int j = i - 1; j >= 0; j--)
-            ft_putchar_fd(buffer[j], 1);
-
-        return i;
-    }
-    else
-    else if (format == '%')
-    {
-        ft_putchar_fd('%', 1);
-        return 1;
-    } 
-
-    return 0;
-}
-int ft_printf(const char *format, ...)
-{
-    va_list args;
-    va_start(args, format);
-    int count = 0;
-
-    while (*format)
-    {
-        if (*format == '%')
-        {
-            format++;
-            count += indentificador(*format, &args);
-        }
-        else
-        {
-            ft_putchar_fd(*format, 1);
-            count++;
-        }
-        format++;
-    }
-    va_end(args);
-    return count;
+	if (spec == 'c')
+		return (ft_putchar_fd(va_arg(*args, int), 1));
+	if (spec == 's')
+		return (ft_putstrn_fd(va_arg(*args, char *), 1));
+	if (spec == 'p')
+		return (ft_putptr_fd(va_arg(*args, void *), 1));
+	if (spec == 'd' || spec == 'i')
+		return (ft_putnbrint_fd(va_arg(*args, int), 1));
+	if (spec == 'u')
+		return (ft_putnbr_unsigned_fd(va_arg(*args, unsigned int), 1));
+	if (spec == 'x' || spec == 'X')
+		return (ft_puthex_fd(va_arg(*args, unsigned int), spec, 1));
+	if (spec == '%')
+		return (ft_putchar_fd('%', 1));
+	return (0);
 }
 
-int main()
+int	ft_printf(const char *format, ...)
 {
-    char *name = "Alice";
-    int messages = 5;
-   // ft_printf("Hello, %s! You have %d new messages. %% %c %X\n", name, messages, 'A', 15);
-    ft_printf("Hello, %s! You have %d new messages. %% %c %x %p\n", name, messages, 'A', 15, (void *)16);
-    printf("\n+============================================================================+\n");
-   int p = printf("Hello, %s! You have %d new messages. %% %c %x %p\n", name, messages, 'A', 15, (void *)16);
-   //printf("Hello, %s! You have %d new messages. %% %c %X\n", name, p, 'A', 15);
-    
-   return 0;
+	va_list	args;
+	int		len;
+
+	if (!format)
+		return (-1);
+	len = 0;
+	va_start(args, format);
+	while (*format)
+	{
+		if (*format == '%' && *(format + 1))
+		{
+			format++;
+			len += ft_check_specifier(*format, &args);
+		}
+		else
+			len += ft_putchar_fd(*format, 1);
+		format++;
+	}
+	va_end(args);
+	return (len);
 }
